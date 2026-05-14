@@ -1,0 +1,161 @@
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZOR Fashion - Premium Fashion Store</title>
+    <link rel="stylesheet" href="stylee.css">
+</head>
+<body>
+
+<header>
+    <div class="menu-icon" onclick="toggleSidebar()">☰</div>
+    <h1>✨ AZOR FASHION ✨</h1>
+    <div class="header-icons">
+        <span class="icon">🛒</span>
+    </div>
+</header>
+
+
+<div id="sidebar" class="sidebar">
+    <button class="close-btn" onclick="toggleSidebar()">✕</button>
+    <h2>🎯 Filters</h2>
+
+    <label>Gender:</label>
+    <select id="genderFilter" onchange="filterProducts()">
+        <option value="all">All</option>
+        <option value="women">Women</option>
+        <option value="men">Men</option>
+    </select>
+
+    <label>Color:</label>
+    <select id="colorFilter" onchange="filterProducts()">
+        <option value="all">All</option>
+        <option value="red">Red</option>
+        <option value="black">Black</option>
+        <option value="blue">Blue</option>
+        <option value="gold">Gold</option>
+        <option value="purple">Purple</option>
+    </select>
+
+    <label>Price Range:</label>
+    <input type="range" id="priceFilter" min="0" max="10000" onchange="filterProducts()" style="width: 100%;">
+</div>
+
+<div class="hero-section">
+    <h2>New Collection 2024</h2>
+    <p>Discover the latest trends in fashion</p>
+</div>
+
+<div class="top-controls">
+    <div class="category-buttons">
+        <button class="category-btn" onclick="selectCategory('all')">All Products</button>
+        <button class="category-btn" onclick="selectCategory('women')">👗 Women</button>
+        <button class="category-btn" onclick="selectCategory('men')">👔 Men</button>
+        <button class="category-btn reset-btn" onclick="resetFilters()">Reset Filters</button>
+    </div>
+    
+    <select id="sortOption" onchange="sortProducts()">
+        <option value="">Sort By</option>
+        <option value="priceLow">Price: Low to High</option>
+        <option value="priceHigh">Price: High to Low</option>
+        <option value="ratingHigh">⭐ Highest Rated</option>
+    </select>
+</div>
+
+<section class="products" id="productContainer">
+
+    <div class="product-card" data-gender="women" data-color="red" data-price="2500" data-rating="4.8">
+        <div class="product-image-wrapper">
+            <img src="photos/reddress.jpg.jpg" alt="Luxury Red Dress">
+            <span class="badge-new">NEW</span>
+        </div>
+        <h3>Luxury Red Dress</h3>
+        <p class="price">₹2,500</p>
+        <p class="rating">⭐ 4.8 (125 reviews)</p>
+        <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="product-card" data-gender="men" data-color="black" data-price="4000" data-rating="4.5">
+        <div class="product-image-wrapper">
+            <img src="photos/Premium Black Suit.jpg" alt="Premium Black Suit">
+            <span class="badge-hot">HOT</span>
+        </div>
+        <h3>Premium Black Suit</h3>
+        <p class="price">₹4,000</p>
+        <p class="rating">⭐ 4.5 (98 reviews)</p>
+        <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="product-card" data-gender="men" data-color="blue" data-price="1800" data-rating="4.2">
+        <div class="product-image-wrapper">
+            <img src="photos/Classic Blue Shirt.jpg" alt="Classic Blue Shirt">
+        </div>
+        <h3>Classic Blue Shirt</h3>
+        <p class="price">₹1,800</p>
+        <p class="rating">⭐ 4.2 (87 reviews)</p>
+        <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="product-card" data-gender="women" data-color="gold" data-price="3500" data-rating="4.9">
+        <div class="product-image-wrapper">
+            <img src="photos/Golden Elegance Saree.jpg" alt="Golden Elegance Saree">
+            <span class="badge-hot">HOT</span>
+        </div>
+        <h3>Golden Elegance Saree</h3>
+        <p class="price">₹3,500</p>
+        <p class="rating">⭐ 4.9 (156 reviews)</p>
+        <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="product-card" data-gender="women" data-color="purple" data-price="2200" data-rating="4.6">
+        <div class="product-image-wrapper">
+            <img src="photos/Purple Casual Dress.jpg" alt="Purple Casual Dress">
+            <span class="badge-new">NEW</span>
+        </div>
+        <h3>Purple Casual Dress</h3>
+        <p class="price">₹2,200</p>
+        <p class="rating">⭐ 4.6 (112 reviews)</p>
+        <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="product-card" data-gender="men" data-color="black" data-price="2800" data-rating="4.7">
+        <div class="product-image-wrapper">
+            <img src="photos/Black Casual T-Shirt.jpg" alt="Black Casual T-Shirt">
+        </div>
+        <h3>Black Casual T-Shirt</h3>
+        <p class="price">₹2,800</p>
+        <p class="rating">⭐ 4.7 (203 reviews)</p>
+        <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="product-card" data-gender="women" data-color="red" data-price="1500" data-rating="4.4">
+        <div class="product-image-wrapper">
+            <img src="photos/Red Summer Top.jpg" alt="Red Summer Top">
+        </div>
+        <h3>Red Summer Top</h3>
+        <p class="price">₹1,500</p>
+        <p class="rating">⭐ 4.4 (89 reviews)</p>
+        <button class="add-btn">Add to Cart</button>
+    </div>
+
+    <div class="product-card" data-gender="men" data-color="blue" data-price="3200" data-rating="4.8">
+        <div class="product-image-wrapper">
+            <img src="photos/Blue Jacket.jpg" alt="Blue Jacket">
+            <span class="badge-new">NEW</span>
+        </div>
+        <h3>Blue Jacket</h3>
+        <p class="price">₹3,200</p>
+        <p class="rating">⭐ 4.8 (167 reviews)</p>
+        <button class="add-btn">Add to Cart</button>
+    </div>
+
+</section>
+
+<footer class="footer">
+    <p>© 2024 AZOR Fashion. All rights reserved. | Made with ❤️</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
