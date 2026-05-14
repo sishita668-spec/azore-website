@@ -1,0 +1,688 @@
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AZOR Fashion - Premium Fashion & Beauty Store</title>
+    <link rel="stylesheet" href="stylee.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-container">
+        <!-- Logo -->
+        <div class="logo">
+            <a href="#home" onclick="scrollToSection('home'); return false;">
+                <span class="logo-icon">✨</span>
+                <span class="logo-text">AZOR</span>
+            </a>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home" onclick="scrollToSection('home'); toggleMenu(); return false;">Home</a></li>
+            <li><a href="#products" onclick="scrollToSection('products'); toggleMenu(); return false;">Products</a></li>
+            <li><a href="#categories" onclick="scrollToSection('categories'); toggleMenu(); return false;">Categories</a></li>
+            <li><a href="#about" onclick="scrollToSection('about'); toggleMenu(); return false;">About</a></li>
+            <li><a href="#contact" onclick="scrollToSection('contact'); toggleMenu(); return false;">Contact</a></li>
+        </ul>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search products..." class="search-input">
+            <button class="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+
+        <!-- Right Icons -->
+        <div class="nav-icons">
+            <a href="#" onclick="openLoginModal(); return false;" class="nav-icon" title="Login">
+                <i class="fas fa-user"></i>
+            </a>
+            <a href="#" class="nav-icon" id="wishlistIcon" title="Wishlist" onclick="showWishlist(); return false;">
+                <i class="far fa-heart"></i>
+                <span class="icon-badge" id="wishlistCount">0</span>
+            </a>
+            <a href="#" class="nav-icon" id="cartIcon" title="Shopping Cart" onclick="openCart(); return false;">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="icon-badge" id="cartCount">0</span>
+            </a>
+            <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+
+<!-- SIDEBAR FILTER -->
+<div class="sidebar-filter" id="sidebarFilter">
+    <button class="close-btn" onclick="closeSidebar()">✕</button>
+    <h2>🎯 Filters</h2>
+
+    <div class="filter-group">
+        <label>Category:</label>
+        <select id="categoryFilter" onchange="filterProducts()">
+            <option value="all">All Products</option>
+            <option value="women">Women</option>
+            <option value="men">Men</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label>Color:</label>
+        <select id="colorFilter" onchange="filterProducts()">
+            <option value="all">All Colors</option>
+            <option value="red">Red</option>
+            <option value="black">Black</option>
+            <option value="blue">Blue</option>
+            <option value="gold">Gold</option>
+            <option value="purple">Purple</option>
+        </select>
+    </div>
+
+    <div class="filter-group">
+        <label>Price Range:</label>
+        <input type="range" id="priceFilter" min="0" max="10000" value="10000" onchange="filterProducts()" style="width: 100%;">
+        <div class="price-display">₹0 - ₹<span id="priceValue">10000</span></div>
+    </div>
+
+    <div class="filter-group">
+        <label>Rating:</label>
+        <select id="ratingFilter" onchange="filterProducts()">
+            <option value="all">All Ratings</option>
+            <option value="4.5">4.5+ ⭐</option>
+            <option value="4">4+ ⭐</option>
+            <option value="3.5">3.5+ ⭐</option>
+        </select>
+    </div>
+
+    <button class="reset-filters-btn" onclick="resetFilters()">Reset Filters</button>
+</div>
+
+<!-- HERO SECTION -->
+<section class="hero-section" id="home">
+    <div class="hero-content">
+        <h2>New Collection 2024</h2>
+        <p>Discover the latest trends in premium fashion & beauty</p>
+        <div class="hero-buttons">
+            <button class="btn btn-primary" onclick="scrollToSection('products'); return false;">Shop Now</button>
+            <button class="btn btn-secondary" onclick="scrollToSection('products'); return false;">Explore Collection</button>
+        </div>
+    </div>
+</section>
+
+<!-- CONTROLS & FILTERS -->
+<div class="products-section" id="products">
+    <div class="top-controls">
+        <div class="controls-left">
+            <button class="filter-toggle" onclick="toggleSidebar()">
+                <i class="fas fa-filter"></i> Filters
+            </button>
+        </div>
+
+        <div class="sort-control">
+            <select id="sortOption" onchange="sortProducts()">
+                <option value="">Sort By</option>
+                <option value="priceLow">Price: Low to High</option>
+                <option value="priceHigh">Price: High to Low</option>
+                <option value="ratingHigh">⭐ Top Rated</option>
+                <option value="newest">Newest</option>
+            </select>
+        </div>
+
+        <div class="results-count">
+            <span id="resultsCount">Showing all products</span>
+        </div>
+    </div>
+
+    <!-- PRODUCT GRID -->
+    <section class="products" id="productContainer">
+
+        <div class="product-card" data-gender="women" data-color="red" data-price="2500" data-rating="4.8" data-id="1">
+            <div class="product-image-wrapper">
+                <img src="photos/reddress.jpg.jpg" alt="Luxury Red Dress">
+                <span class="badge badge-new">NEW</span>
+                <span class="discount-badge">-10%</span>
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3>Luxury Red Dress</h3>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this, 1)"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rating-section">
+                    <span class="rating">⭐ 4.8</span>
+                    <span class="review-count">(125 reviews)</span>
+                </div>
+                <div class="price-section">
+                    <span class="price">₹2,500</span>
+                    <span class="original-price">₹2,778</span>
+                </div>
+                <div class="product-actions">
+                    <button class="quick-view-btn" onclick="openQuickView(1, 'Luxury Red Dress', '₹2,500', 'photos/reddress.jpg.jpg', 4.8, 125)">Quick View</button>
+                    <button class="add-btn" onclick="addToCart(1, 'Luxury Red Dress', 2500, 'photos/reddress.jpg.jpg')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-gender="men" data-color="black" data-price="4000" data-rating="4.5" data-id="2">
+            <div class="product-image-wrapper">
+                <img src="photos/Premium Black Suit.jpg" alt="Premium Black Suit">
+                <span class="badge badge-hot">HOT</span>
+                <span class="discount-badge">-15%</span>
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3>Premium Black Suit</h3>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this, 2)"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rating-section">
+                    <span class="rating">⭐ 4.5</span>
+                    <span class="review-count">(98 reviews)</span>
+                </div>
+                <div class="price-section">
+                    <span class="price">₹4,000</span>
+                    <span class="original-price">₹4,706</span>
+                </div>
+                <div class="product-actions">
+                    <button class="quick-view-btn" onclick="openQuickView(2, 'Premium Black Suit', '₹4,000', 'photos/Premium Black Suit.jpg', 4.5, 98)">Quick View</button>
+                    <button class="add-btn" onclick="addToCart(2, 'Premium Black Suit', 4000, 'photos/Premium Black Suit.jpg')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-gender="men" data-color="blue" data-price="1800" data-rating="4.2" data-id="3">
+            <div class="product-image-wrapper">
+                <img src="photos/Classic Blue Shirt.jpg" alt="Classic Blue Shirt">
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3>Classic Blue Shirt</h3>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this, 3)"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rating-section">
+                    <span class="rating">⭐ 4.2</span>
+                    <span class="review-count">(87 reviews)</span>
+                </div>
+                <div class="price-section">
+                    <span class="price">₹1,800</span>
+                    <span class="original-price">₹2,250</span>
+                </div>
+                <div class="product-actions">
+                    <button class="quick-view-btn" onclick="openQuickView(3, 'Classic Blue Shirt', '₹1,800', 'photos/Classic Blue Shirt.jpg', 4.2, 87)">Quick View</button>
+                    <button class="add-btn" onclick="addToCart(3, 'Classic Blue Shirt', 1800, 'photos/Classic Blue Shirt.jpg')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-gender="women" data-color="gold" data-price="3500" data-rating="4.9" data-id="4">
+            <div class="product-image-wrapper">
+                <img src="photos/Golden Elegance Saree.jpg" alt="Golden Elegance Saree">
+                <span class="badge badge-hot">HOT</span>
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3>Golden Elegance Saree</h3>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this, 4)"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rating-section">
+                    <span class="rating">⭐ 4.9</span>
+                    <span class="review-count">(156 reviews)</span>
+                </div>
+                <div class="price-section">
+                    <span class="price">₹3,500</span>
+                    <span class="original-price">₹4,375</span>
+                </div>
+                <div class="product-actions">
+                    <button class="quick-view-btn" onclick="openQuickView(4, 'Golden Elegance Saree', '₹3,500', 'photos/Golden Elegance Saree.jpg', 4.9, 156)">Quick View</button>
+                    <button class="add-btn" onclick="addToCart(4, 'Golden Elegance Saree', 3500, 'photos/Golden Elegance Saree.jpg')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-gender="women" data-color="purple" data-price="2200" data-rating="4.6" data-id="5">
+            <div class="product-image-wrapper">
+                <img src="photos/Purple Casual Dress.jpg" alt="Purple Casual Dress">
+                <span class="badge badge-new">NEW</span>
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3>Purple Casual Dress</h3>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this, 5)"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rating-section">
+                    <span class="rating">⭐ 4.6</span>
+                    <span class="review-count">(112 reviews)</span>
+                </div>
+                <div class="price-section">
+                    <span class="price">₹2,200</span>
+                    <span class="original-price">₹2,750</span>
+                </div>
+                <div class="product-actions">
+                    <button class="quick-view-btn" onclick="openQuickView(5, 'Purple Casual Dress', '₹2,200', 'photos/Purple Casual Dress.jpg', 4.6, 112)">Quick View</button>
+                    <button class="add-btn" onclick="addToCart(5, 'Purple Casual Dress', 2200, 'photos/Purple Casual Dress.jpg')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-gender="men" data-color="black" data-price="2800" data-rating="4.7" data-id="6">
+            <div class="product-image-wrapper">
+                <img src="photos/Black Casual T-Shirt.jpg" alt="Black Casual T-Shirt">
+                <span class="discount-badge">-20%</span>
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3>Black Casual T-Shirt</h3>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this, 6)"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rating-section">
+                    <span class="rating">⭐ 4.7</span>
+                    <span class="review-count">(203 reviews)</span>
+                </div>
+                <div class="price-section">
+                    <span class="price">₹2,800</span>
+                    <span class="original-price">₹3,500</span>
+                </div>
+                <div class="product-actions">
+                    <button class="quick-view-btn" onclick="openQuickView(6, 'Black Casual T-Shirt', '₹2,800', 'photos/Black Casual T-Shirt.jpg', 4.7, 203)">Quick View</button>
+                    <button class="add-btn" onclick="addToCart(6, 'Black Casual T-Shirt', 2800, 'photos/Black Casual T-Shirt.jpg')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-gender="women" data-color="red" data-price="1500" data-rating="4.4" data-id="7">
+            <div class="product-image-wrapper">
+                <img src="photos/Red Summer Top.jpg" alt="Red Summer Top">
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3>Red Summer Top</h3>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this, 7)"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rating-section">
+                    <span class="rating">⭐ 4.4</span>
+                    <span class="review-count">(89 reviews)</span>
+                </div>
+                <div class="price-section">
+                    <span class="price">₹1,500</span>
+                    <span class="original-price">₹1,875</span>
+                </div>
+                <div class="product-actions">
+                    <button class="quick-view-btn" onclick="openQuickView(7, 'Red Summer Top', '₹1,500', 'photos/Red Summer Top.jpg', 4.4, 89)">Quick View</button>
+                    <button class="add-btn" onclick="addToCart(7, 'Red Summer Top', 1500, 'photos/Red Summer Top.jpg')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-card" data-gender="men" data-color="blue" data-price="3200" data-rating="4.8" data-id="8">
+            <div class="product-image-wrapper">
+                <img src="photos/Blue Jacket.jpg" alt="Blue Jacket">
+                <span class="badge badge-new">NEW</span>
+            </div>
+            <div class="product-info">
+                <div class="product-header">
+                    <h3>Blue Jacket</h3>
+                    <button class="wishlist-btn" onclick="toggleWishlist(this, 8)"><i class="far fa-heart"></i></button>
+                </div>
+                <div class="rating-section">
+                    <span class="rating">⭐ 4.8</span>
+                    <span class="review-count">(167 reviews)</span>
+                </div>
+                <div class="price-section">
+                    <span class="price">₹3,200</span>
+                    <span class="original-price">₹4,000</span>
+                </div>
+                <div class="product-actions">
+                    <button class="quick-view-btn" onclick="openQuickView(8, 'Blue Jacket', '₹3,200', 'photos/Blue Jacket.jpg', 4.8, 167)">Quick View</button>
+                    <button class="add-btn" onclick="addToCart(8, 'Blue Jacket', 3200, 'photos/Blue Jacket.jpg')">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+
+<!-- FEATURED PRODUCTS SECTION -->
+<section class="featured-section" id="featured">
+    <div class="section-header">
+        <h2>Featured Products</h2>
+        <p>Handpicked selections for you</p>
+    </div>
+    <div class="featured-products">
+        <div class="featured-item">
+            <div class="featured-badge">Best Seller</div>
+            <img src="photos/Premium Black Suit.jpg" alt="Best Seller">
+            <h4>Premium Black Suit</h4>
+            <p>₹4,000</p>
+        </div>
+        <div class="featured-item">
+            <div class="featured-badge">Top Rated</div>
+            <img src="photos/Golden Elegance Saree.jpg" alt="Top Rated">
+            <h4>Golden Elegance Saree</h4>
+            <p>₹3,500</p>
+        </div>
+        <div class="featured-item">
+            <div class="featured-badge">Trending</div>
+            <img src="photos/Blue Jacket.jpg" alt="Trending">
+            <h4>Blue Jacket</h4>
+            <p>₹3,200</p>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS SECTION -->
+<section class="testimonials-section" id="testimonials">
+    <div class="section-header">
+        <h2>Customer Reviews</h2>
+        <p>See what our happy customers say</p>
+    </div>
+    <div class="testimonials-grid">
+        <div class="testimonial-card">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p>"Amazing quality and fast delivery! The dress fits perfectly and looks even better than in pictures."</p>
+            <div class="testimonial-author">
+                <strong>Sarah M.</strong>
+                <span>Verified Purchase</span>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="stars">⭐⭐⭐⭐⭐</div>
+            <p>"Great customer service and the premium suit is absolutely worth the price. Highly recommended!"</p>
+            <div class="testimonial-author">
+                <strong>Rajesh K.</strong>
+                <span>Verified Purchase</span>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <div class="stars">⭐⭐⭐⭐</div>
+            <p>"Good quality products at reasonable prices. Love shopping here and will definitely order again."</p>
+            <div class="testimonial-author">
+                <strong>Priya L.</strong>
+                <span>Verified Purchase</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- NEWSLETTER SECTION -->
+<section class="newsletter-section">
+    <div class="newsletter-content">
+        <h2>Subscribe to Our Newsletter</h2>
+        <p>Get exclusive deals, new arrivals, and fashion tips delivered to your inbox</p>
+        <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+            <input type="email" placeholder="Enter your email" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="contact">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h4>About AZOR</h4>
+            <p>Premium fashion & beauty store offering the latest trends and timeless classics.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#featured">Featured</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Contact Info</h4>
+            <p>Email: <a href="mailto:info@azorfashion.com">info@azorfashion.com</a></p>
+            <p>Phone: +91 9876543210</p>
+        </div>
+        <div class="footer-section">
+            <h4>Follow Us</h4>
+            <div class="social-links">
+                <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="Pinterest"><i class="fab fa-pinterest"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2024 AZOR Fashion. All rights reserved. | Made with ❤️</p>
+    </div>
+</footer>
+
+<!-- QUICK VIEW MODAL -->
+<div class="modal" id="quickViewModal">
+    <div class="modal-content quick-view-content">
+        <button class="modal-close" onclick="closeQuickView()">✕</button>
+        <div class="quick-view-container">
+            <div class="qv-image">
+                <img id="qvImage" src="" alt="">
+            </div>
+            <div class="qv-details">
+                <h2 id="qvTitle"></h2>
+                <div class="qv-rating">
+                    <span id="qvRating"></span>
+                    <span id="qvReviews"></span>
+                </div>
+                <div class="qv-price">
+                    <span id="qvPrice"></span>
+                </div>
+                <p class="qv-description">Premium quality garment made with finest materials. Available in multiple sizes.</p>
+                <div class="quantity-selector">
+                    <label>Quantity:</label>
+                    <div class="qty-controls">
+                        <button onclick="decreaseQty()">-</button>
+                        <input type="number" id="qvQty" value="1" min="1" max="10">
+                        <button onclick="increaseQty()">+</button>
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-large" id="qvAddBtn" onclick="addFromQuickView()">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CART MODAL -->
+<div class="modal" id="cartModal">
+    <div class="modal-content cart-modal-content">
+        <button class="modal-close" onclick="closeCart()">✕</button>
+        <h2>Shopping Cart</h2>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-summary" id="cartSummary" style="display: none;">
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span id="subtotal">₹0</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping:</span>
+                <span id="shipping">₹0</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total:</span>
+                <span id="total">₹0</span>
+            </div>
+            <button class="btn btn-primary btn-large" onclick="proceedToCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal" id="loginModal">
+    <div class="modal-content auth-modal-content">
+        <button class="modal-close" onclick="closeLoginModal()">✕</button>
+        <div class="auth-container">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('login')">Login</button>
+                <button class="tab-btn" onclick="switchTab('signup')">Sign Up</button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
+                <h3>Login to Your Account</h3>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="password-field">
+                        <input type="password" id="loginPassword" required placeholder="Enter your password">
+                        <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('loginPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-large">Login</button>
+                <p class="form-link">Forgot password? <a href="#">Reset here</a></p>
+            </form>
+
+            <!-- SIGNUP FORM -->
+            <form id="signupForm" class="auth-form" onsubmit="handleSignup(event)">
+                <h3>Create New Account</h3>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <div class="password-field">
+                        <input type="password" id="signupPassword" required placeholder="Create a password">
+                        <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('signupPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <div class="password-field">
+                        <input type="password" id="confirmPassword" required placeholder="Confirm your password">
+                        <button type="button" class="toggle-pwd" onclick="togglePasswordVisibility('confirmPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group checkbox">
+                    <input type="checkbox" required>
+                    <label>I agree to the terms and conditions</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-large">Sign Up</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="checkoutModal">
+    <div class="modal-content checkout-modal-content">
+        <button class="modal-close" onclick="closeCheckout()">✕</button>
+        <h2>Checkout</h2>
+        <div class="checkout-container">
+            <div class="checkout-form">
+                <h3>Delivery Address</h3>
+                <form onsubmit="handleCheckout(event)">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" required placeholder="10-digit number">
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" required placeholder="Street address">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" required>
+                        </div>
+                        <div class="form-group">
+                            <label>State</label>
+                            <input type="text" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Postal Code</label>
+                        <input type="text" required>
+                    </div>
+
+                    <h3 style="margin-top: 30px;">Payment Method</h3>
+                    <div class="payment-options">
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="credit-card" required>
+                            <span>💳 Credit/Debit Card</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="upi">
+                            <span>📱 UPI</span>
+                        </label>
+                        <label class="payment-option">
+                            <input type="radio" name="payment" value="cod">
+                            <span>🚚 Cash on Delivery</span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-large" style="margin-top: 20px;">Place Order</button>
+                </form>
+            </div>
+
+            <div class="order-summary">
+                <h3>Order Summary</h3>
+                <div id="checkoutItems"></div>
+                <div class="summary-row" style="margin-top: 20px;">
+                    <span>Subtotal:</span>
+                    <span id="checkoutSubtotal">₹0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Shipping:</span>
+                    <span id="checkoutShipping">₹100</span>
+                </div>
+                <div class="summary-row total" style="margin-top: 10px; padding-top: 10px; border-top: 2px solid #eee;">
+                    <span>Total:</span>
+                    <span id="checkoutTotal">₹0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ORDER SUCCESS MODAL -->
+<div class="modal" id="orderSuccessModal">
+    <div class="modal-content success-modal-content">
+        <div class="success-icon">✓</div>
+        <h2>Order Placed Successfully!</h2>
+        <p>Your order has been confirmed and will be delivered soon.</p>
+        <div class="order-details">
+            <p><strong>Order ID:</strong> <span id="orderId"></span></p>
+            <p><strong>Estimated Delivery:</strong> 3-5 Business Days</p>
+        </div>
+        <button class="btn btn-primary btn-large" onclick="closeOrderSuccess()">Continue Shopping</button>
+    </div>
+</div>
+
+<!-- WISHLIST MODAL -->
+<div class="modal" id="wishlistModal">
+    <div class="modal-content wishlist-modal-content">
+        <button class="modal-close" onclick="closeWishlistModal()">✕</button>
+        <h2>My Wishlist</h2>
+        <div class="wishlist-items" id="wishlistItems">
+            <p class="empty-wishlist">Your wishlist is empty</p>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
